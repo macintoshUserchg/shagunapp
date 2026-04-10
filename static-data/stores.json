@@ -1,0 +1,32 @@
+[
+  {
+    "id": "cmneaz1i5000g21lo3xkfdloa",
+    "city": "Ahmedabad",
+    "slug": "ahmedabad",
+    "address": "17 Sukan City, Opp. Arya Villa Apartment, C.S.T Crossing Road, New Ranip, Ahmedabad – 382480",
+    "hours": "11:00 AM – 11:30 PM",
+    "phone": "+91 84600 84600",
+    "createdAt": "2026-03-31T07:36:01.374Z",
+    "updatedAt": "2026-04-08T17:25:01.405Z"
+  },
+  {
+    "id": "cmneff9xl000p21garmjuy98l",
+    "city": "Jaipur",
+    "slug": "jaipur",
+    "address": "D 4, Janpath, Shyam Nagar, New Sanganer Road, Jaipur – 302019",
+    "hours": "11:00 AM – 11:00 PM",
+    "phone": "+91 94613 06267",
+    "createdAt": "2026-03-31T09:40:37.258Z",
+    "updatedAt": "2026-04-08T17:25:01.404Z"
+  },
+  {
+    "id": "cmneffyed000r21ihi2gqa0td",
+    "city": "Mumbai",
+    "slug": "mumbai",
+    "address": "Havmor Havfunn, Linking Road, Bandra West, Mumbai – 400050",
+    "hours": "11:00 AM – 12:00 AM",
+    "phone": "+91 22 4246 0606",
+    "createdAt": "2026-03-31T09:41:08.965Z",
+    "updatedAt": "2026-04-08T17:25:01.406Z"
+  }
+]

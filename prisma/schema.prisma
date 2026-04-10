@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String   @default("Admin")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model SiteSettings {
+  id                String   @id @default("site-settings")
+  brandName         String   @default("Polar Swirl")
+  announcement      String   @default("Fresh scoops, wafer cones, and celebration tubs are now live.")
+  heroKicker        String   @default("Ice cream that feels editorial, festive, and ready for the spotlight.")
+  heroTitle         String   @default("Build a flavor-first brand home that looks as joyful as the menu tastes.")
+  heroSubtitle      String   @default("This CMS-driven storefront turns your featured scoops, flavor families, and store locations into a bright portfolio experience that feels inspired by premium ice cream brands.")
+  featuredTitle     String   @default("Featured Scoops")
+  featuredSubtitle  String   @default("Lead with the flavors that deserve the most attention, then keep the rest of the menu easy to browse.")
+  storyTitle        String   @default("Made for cravings, gifting, late-night runs, and launch-day wow moments.")
+  storyBody         String   @default("Use the dashboard to refresh banners, flavor cards, pricing, and scoop-shop details whenever you need. The public site updates from Postgres, so the homepage and CMS stay in sync.")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String
+  accentColor String    @default("#F97316")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  products    Product[]
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  tagline     String
+  description String
+  price       Int
+  colorHex    String   @default("#F59E0B")
+  imageUrl    String?
+  featured    Boolean  @default(false)
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([categoryId])
+}
+
+model StoreLocation {
+  id        String   @id @default(cuid())
+  city      String
+  slug      String   @unique
+  address   String
+  hours     String
+  phone     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FlavorArt } from "./components/flavor-art";
+import { FlavorArt } from "@/components/flavor-art";
 import clsx from "clsx";
 
 type Props = {

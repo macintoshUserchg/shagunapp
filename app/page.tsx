@@ -1,10 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, ChevronRight, MapPin, Phone, Clock, Star } from "lucide-react";
-import { ProductImage } from "@/components/product-image";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { MobileNav } from "@/components/mobile-nav";
-import { getPublicSiteData } from "@/lib/data";
+import { ProductImage } from "./components/product-image";
+import { ThemeToggle } from "./components/theme-toggle";
+import { MobileNav } from "./components/mobile-nav";
+import { getPublicSiteData } from "./lib/data";
 
 const navLinks = [
   { href: "#flavours",    label: "Choose Your Flavour" },

@@ -3,6 +3,16 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Custom colors for Havmor theme */
+  --accent: #E11D48;
+  --accent-soft: rgba(225, 29, 72, 0.08);
+  --accent-text: #E11D48;
+  --border: #e5e5e5;
+  --muted: #6b7280;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --surface-stat: #f9fafb;
+  --dark-panel: #1f2937;
 }
 
 @theme inline {
@@ -16,6 +26,13 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    /* Dark mode adjustments */
+    --border: #374151;
+    --muted: #9ca3af;
+    --glass-bg: rgba(17, 24, 39, 0.7);
+    --surface-stat: #111827;
+    --accent-soft: rgba(225, 29, 72, 0.12);
   }
 }
 
@@ -23,4 +40,88 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Custom utility classes */
+.shell {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .shell {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+.section-kicker {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.font-display {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: var(--accent);
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.primary-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+}
+
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--foreground);
+  background-color: var(--surface-stat);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.secondary-button:hover {
+  background-color: var(--border);
+}
+
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 1.25rem;
+  color: var(--foreground);
+  background-color: var(--surface-stat);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--border);
 }

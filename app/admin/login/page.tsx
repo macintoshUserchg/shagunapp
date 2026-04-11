@@ -22,6 +22,7 @@ export default function AdminLoginPage() {
     setError("")
 
     const formData = new FormData(e.currentTarget)
+    formData.append("action", "login")
     
     try {
       const response = await fetch("/admin/actions", {
@@ -30,13 +31,15 @@ export default function AdminLoginPage() {
       })
       
       const result = await response.json()
+      console.log("Login result:", result)
       
       if (!result.success) {
         setError(result.error || "Login failed")
       } else {
         router.push("/admin")
       }
-    } catch {
+    } catch (err) {
+      console.error("Login error:", err)
       setError("An unexpected error occurred")
     } finally {
       setLoading(false)
@@ -99,8 +102,6 @@ export default function AdminLoginPage() {
                     {error}
                   </motion.div>
                 )}
-
-                <input type="hidden" name="action" value="login" />
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/70">Email</label>

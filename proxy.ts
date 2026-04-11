@@ -12,8 +12,8 @@ function getSecret() {
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Allow the login page and actions through
-  if (pathname.startsWith("/admin/login") || pathname.startsWith("/admin/actions")) {
+  // Allow the login page, actions, and API through
+  if (pathname.startsWith("/admin/login") || pathname.startsWith("/admin/actions") || pathname.startsWith("/admin/api")) {
     return NextResponse.next();
   }
 

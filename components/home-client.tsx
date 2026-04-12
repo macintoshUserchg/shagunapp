@@ -80,7 +80,9 @@ export default function HomeClient({
       >
         <div className="shell flex h-16 items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3">
-            <Image src="/glacier/logo.svg" alt="GlacierIce Cream" width={120} height={40} className="h-9 w-auto object-contain" />
+            <div className="h-9 w-12 rounded-lg flex items-center justify-center bg-gradient-to-br from-cyan-500 to-blue-600">
+              <Image src="/glacier/logo.svg" alt="GlacierIce Cream" width={40} height={30} className="h-7 w-auto object-contain" />
+            </div>
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex">

@@ -4,7 +4,6 @@ import { Moon, Sun } from "lucide-react";
 import { useCallback, useSyncExternalStore } from "react";
 
 function subscribe(cb: () => void) {
-  // Listen for storage changes from other tabs
   window.addEventListener("storage", cb);
   return () => window.removeEventListener("storage", cb);
 }
@@ -24,13 +23,20 @@ export function ThemeToggle() {
     const next = !document.documentElement.classList.contains("dark");
     document.documentElement.classList.toggle("dark", next);
     localStorage.setItem("theme", next ? "dark" : "light");
-    // Trigger re-render by dispatching a storage event
     window.dispatchEvent(new Event("storage"));
   }, []);
 
   return (
-    <button onClick={toggle} aria-label="Toggle theme" className="theme-toggle-btn">
-      {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+    <button 
+      onClick={toggle} 
+      aria-label="Toggle theme" 
+      className="p-2 rounded-lg hover:bg-[var(--surface-stat)] transition-colors"
+    >
+      {dark ? (
+        <Sun className="h-5 w-5" style={{ color: "var(--foreground)" }} />
+      ) : (
+        <Moon className="h-5 w-5" style={{ color: "var(--foreground)" }} />
+      )}
     </button>
   );
 }

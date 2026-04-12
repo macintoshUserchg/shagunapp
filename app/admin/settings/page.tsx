@@ -96,9 +96,9 @@ export default function AdminSettingsPage() {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="p-6 max-w-4xl mx-auto"
+      className="p-4 lg:p-6 max-w-5xl"
     >
-      <motion.div variants={itemVariants} className="flex items-center justify-between mb-8">
+      <motion.div variants={itemVariants} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-2xl font-bold" style={{ color: "var(--foreground)" }}>Settings</h1>
           <p className="text-sm mt-1" style={{ color: "var(--muted)" }}>Manage your website content</p>

@@ -5,8 +5,8 @@ export async function POST(request: NextRequest) {
   const formData = await request.formData()
   const action = formData.get("action") as string
 
-  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@havmor.com"
-  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "havmor2024"
+  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@glaciericecream.com"
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "glacier2024"
 
   if (action === "login") {
     const email = formData.get("email") as string

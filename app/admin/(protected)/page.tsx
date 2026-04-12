@@ -87,7 +87,7 @@ export default function AdminDashboard() {
         <div className="p-4 flex items-center justify-between">
           {sidebarOpen && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              <h2 className="text-white font-bold text-lg">Havmor Admin</h2>
+              <h2 className="text-white font-bold text-lg">GlacierIce Cream Admin</h2>
             </motion.div>
           )}
           <button 
@@ -149,7 +149,7 @@ export default function AdminDashboard() {
               </div>
               <div className="hidden sm:block">
                 <p className="text-sm font-semibold" style={{ color: "var(--foreground)" }}>Admin</p>
-                <p className="text-xs" style={{ color: "var(--muted)" }}>admin@havmor.com</p>
+                <p className="text-xs" style={{ color: "var(--muted)" }}>admin@glaciericecream.com</p>
               </div>
             </div>
           </div>

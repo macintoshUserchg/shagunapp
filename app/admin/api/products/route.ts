@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
         description: productData.description || "",
         price: Number(productData.price) || 0,
         colorHex: productData.colorHex || "#cccccc",
-        imageUrl: productData.imageUrl || "/havmor/placeholder.jpg",
+        imageUrl: productData.imageUrl || "/glacier/placeholder.jpg",
         featured: productData.isFeatured || false,
         categoryId: productData.categoryId,
         createdAt: new Date().toISOString(),

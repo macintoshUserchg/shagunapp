@@ -136,7 +136,7 @@ export default function AdminSettingsPage() {
               <Input
                 value={settings.brandName}
                 onChange={(e) => setSettings({ ...settings, brandName: e.target.value })}
-                placeholder="Havmor"
+                placeholder="GlacierIce Cream"
               />
             </div>
             <div className="grid gap-2">

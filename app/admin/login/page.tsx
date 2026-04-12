@@ -79,7 +79,7 @@ export default function AdminLoginPage() {
               <IceCream className="h-6 w-6 text-white" />
             </div>
           </Link>
-          <h1 className="mt-4 text-2xl font-bold text-white">Admin Portal</h1>
+          <h1 className="mt-4 text-2xl font-bold text-white">GlacierIce Cream Admin</h1>
           <p className="text-white/50">Sign in to manage your store</p>
         </motion.div>
 
@@ -108,7 +108,7 @@ export default function AdminLoginPage() {
                   <Input
                     type="email"
                     name="email"
-                    placeholder="admin@havmor.com"
+                    placeholder="admin@glaciericecream.com"
                     required
                     className="bg-white/5 border-white/10 text-white placeholder:text-white/30"
                   />

@@ -80,7 +80,7 @@ export default function HomeClient({
       >
         <div className="shell flex h-16 items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3">
-            <Image src="/havmor/logo.png" alt="Havmor" width={120} height={40} className="h-9 w-auto object-contain" />
+            <Image src="/glacier/logo.png" alt="GlacierIce Cream" width={120} height={40} className="h-9 w-auto object-contain" />
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex">
@@ -148,9 +148,9 @@ export default function HomeClient({
       >
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-1">
           {[
-            { src: "/havmor/banner-belgian.jpg",     alt: "Belgian Dark Chocolate", label: "New Arrival" },
-            { src: "/havmor/banner-kulfi.jpg",        alt: "Kulfi Collection",       label: "Indian Classic" },
-            { src: "/havmor/banner-wild-berries.jpg", alt: "Wild Berries",           label: "Bestseller" },
+            { src: "/glacier/banner-belgian.jpg",     alt: "Belgian Dark Chocolate", label: "New Arrival" },
+            { src: "/glacier/banner-kulfi.jpg",        alt: "Kulfi Collection",       label: "Indian Classic" },
+            { src: "/glacier/banner-wild-berries.jpg", alt: "Wild Berries",           label: "Bestseller" },
           ].map((b, i) => (
             <motion.div
               key={b.src}
@@ -348,9 +348,9 @@ export default function HomeClient({
 
           <div className="grid gap-6 sm:grid-cols-3">
             {[
-              { icon: "/havmor/icon-about.webp", title: "About Us", desc: "Established in the year 1944 and now a part of LOTTE Wellfood Co. Ltd., Havmor has grown to be loved by all — with 72,000 retail outlets across 21 states.", cta: "Know More" },
-              { icon: "/havmor/icon-awards.webp", title: "Awards", desc: "Making waves in the industry — our hard work and innovation have earned us recognition at the highest levels of the food and beverage industry.", cta: "Know More" },
-              { icon: "/havmor/icon-csr.webp", title: "CSR", desc: "Giving it back to the world — we are who we are because of your support. Our CSR initiatives focus on community, environment, and education.", cta: "Know More" },
+              { icon: "/glacier/icon-about.webp", title: "About Us", desc: "Established in 1995, GlacierIce Cream has grown to be loved by all — with 500+ retail outlets across multiple states.", cta: "Know More" },
+              { icon: "/glacier/icon-awards.webp", title: "Awards", desc: "Making waves in the industry — our hard work and innovation have earned us recognition at the highest levels of the food and beverage industry.", cta: "Know More" },
+              { icon: "/glacier/icon-csr.webp", title: "CSR", desc: "Giving it back to the world — we are who we are because of your support. Our CSR initiatives focus on community, environment, and education.", cta: "Know More" },
             ].map((item, i) => (
               <motion.div
                 key={item.title}
@@ -376,12 +376,12 @@ export default function HomeClient({
                 <h3 className="font-display text-2xl text-white">{settings.storyTitle}</h3>
                 <p className="mt-4 text-sm leading-8 text-white/60">{settings.storyBody}</p>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                 {[
-                  { value: "1944", label: "Est. Year" },
-                  { value: "150+", label: "Flavours" },
-                  { value: "72K+", label: "Retail Outlets" },
-                  { value: "250+", label: "Flagship Stores" },
+                  { value: "1995", label: "Est. Year" },
+                  { value: "100+", label: "Flavours" },
+                  { value: "500+", label: "Retail Outlets" },
+                  { value: "50+", label: "Flagship Stores" },
                 ].map((s) => (
                   <div key={s.label} className="rounded-xl border border-white/10 bg-white/5 p-4 text-center">
                     <p className="font-display text-3xl font-bold text-white">{s.value}</p>
@@ -409,12 +409,12 @@ export default function HomeClient({
               <div>
                 <p className="section-kicker">Surprise Me</p>
                 <h2 className="mt-2 font-display text-3xl sm:text-4xl" style={{ color: "var(--foreground)" }}>
-                  Make every event a celebration with Havmor ice creams
+                  Make every event a celebration with GlacierIce Cream
                 </h2>
                 <p className="mt-4 max-w-xl text-sm leading-8" style={{ color: "var(--muted)" }}>
                   Weddings, birthdays, anniversaries, or any get-together — memorable occasions deserve mouth-watering flavours.
                   Place a Party Order and we'll bring a variety of ice cream flavours that complement every event.
-                  Havmor adds MORE scoops of sweetness to all your celebrations.
+                  GlacierIce Cream adds MORE scoops of sweetness to all your celebrations.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Button asChild>
@@ -428,7 +428,7 @@ export default function HomeClient({
                 </div>
               </div>
               <div className="hidden sm:block">
-                <Image src="/havmor/icon-party.webp" alt="Party Order" width={160} height={160}
+                <Image src="/glacier/icon-party.webp" alt="Party Order" width={160} height={160}
                   className="h-40 w-40 object-contain" />
               </div>
             </div>
@@ -475,7 +475,7 @@ export default function HomeClient({
                     <MapPin className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: "var(--muted)" }}>Havmor Havfunn</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: "var(--muted)" }}>GlacierIce Cream Parlour</p>
                     <h3 className="text-xl font-bold" style={{ color: "var(--foreground)" }}>{store.city}</h3>
                   </div>
                 </div>
@@ -507,9 +507,9 @@ export default function HomeClient({
         <div className="shell py-10">
           <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <Image src="/havmor/logo.png" alt="Havmor" width={120} height={40} className="h-10 w-auto brightness-0 invert" />
+              <Image src="/glacier/logo.png" alt="GlacierIce Cream" width={120} height={40} className="h-10 w-auto brightness-0 invert" />
               <p className="mt-3 max-w-xs text-sm leading-7 text-white/50">
-                Crafting smiles since 1944. Part of LOTTE Wellfood Co. Ltd.
+                Crafting smiles since 1995. Premium ice cream loved by millions.
               </p>
               <div className="mt-4 flex gap-3">
                 {["Facebook", "Instagram", "YouTube", "Twitter"].map((s) => (
@@ -546,7 +546,7 @@ export default function HomeClient({
 
           <div className="mt-8 flex flex-col gap-2 border-t pt-6 sm:flex-row sm:items-center sm:justify-between"
             style={{ borderColor: "rgba(255,255,255,0.1)" }}>
-            <p className="text-xs text-white/30">© {new Date().getFullYear()} Havmor Ice Cream. All rights reserved.</p>
+            <p className="text-xs text-white/30">© {new Date().getFullYear()} GlacierIce Cream. All rights reserved.</p>
             <div className="flex gap-4">
               {["Privacy Policy", "Terms of Use", "FAQ"].map((l) => (
                 <Link key={l} href="#" className="text-xs text-white/30 hover:text-white/60 transition-colors">{l}</Link>

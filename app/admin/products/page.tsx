@@ -80,7 +80,7 @@ export default function AdminProductsPage() {
     description: "",
     price: "",
     colorHex: "#cccccc",
-    imageUrl: "/havmor/placeholder.jpg",
+    imageUrl: "/glacier/placeholder.jpg",
     categoryId: "",
     isFeatured: false,
   })
@@ -127,7 +127,7 @@ export default function AdminProductsPage() {
         description: "",
         price: "",
         colorHex: "#cccccc",
-        imageUrl: "/havmor/placeholder.jpg",
+        imageUrl: "/glacier/placeholder.jpg",
         categoryId: "",
         isFeatured: false,
       })
@@ -353,7 +353,7 @@ export default function AdminProductsPage() {
                     <Input
                       value={formData.imageUrl}
                       onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                      placeholder="/havmor/placeholder.jpg"
+                      placeholder="/glacier/placeholder.jpg"
                     />
                   </div>
                 </div>

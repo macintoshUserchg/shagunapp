@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
-  <rect width="800" height="400" fill="#0EA5E9"/>
-  <circle cx="400" cy="250" r="80" fill="white" opacity="0.9"/>
-  <path d="M360 280 Q400 220 440 280" stroke="#0EA5E9" stroke-width="8" fill="none"/>
-  <text x="400" y="180" font-family="Arial" font-size="24" font-weight="bold" fill="white" text-anchor="middle">Premium Ice Cream</text>
-  <text x="400" y="360" font-family="Arial" font-size="16" fill="white" text-anchor="middle">Handcrafted with Love in Jaipur</text>
-</svg>

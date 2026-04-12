@@ -1,17 +1,15 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { 
   LayoutDashboard, Package, Tag, Store, Settings, 
-  TrendingUp, DollarSign, LogOut, Menu, X,
-  Plus, ChevronRight
+  TrendingUp, LogOut, Menu, X, ChevronLeft
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 
 const menuItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/admin" },
@@ -39,7 +37,8 @@ const itemVariants = {
 }
 
 export default function AdminDashboard() {
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const router = useRouter()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [stats, setStats] = useState({
     categoryCount: 0,
@@ -51,7 +50,11 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 768
+      setIsMobile(mobile)
+      setSidebarOpen(!mobile)
+    }
     checkMobile()
     window.addEventListener("resize", checkMobile)
     loadStats()
@@ -74,41 +77,78 @@ export default function AdminDashboard() {
     const formData = new FormData()
     formData.append("action", "logout")
     await fetch("/admin/actions", { method: "POST", body: formData })
-    window.location.href = "/admin/login"
+    router.push("/admin/login")
+  }
+
+  const closeSidebar = () => {
+    if (isMobile) setSidebarOpen(false)
   }
 
   return (
     <div className="min-h-screen flex" style={{ background: "var(--surface-stat)" }}>
+      {/* Mobile Overlay */}
+      <AnimatePresence>
+        {isMobile && sidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 z-40"
+            onClick={closeSidebar}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Sidebar */}
       <motion.aside
         initial={false}
-        animate={{ width: sidebarOpen ? 260 : 80 }}
-        className="fixed left-0 top-0 z-40 h-screen border-r flex flex-col"
+        animate={{ 
+          x: isMobile ? (sidebarOpen ? 0 : -280) : 0,
+          width: isMobile ? 280 : (sidebarOpen ? 260 : 80)
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        className={`fixed lg:relative z-50 h-screen border-r flex flex-col ${
+          isMobile ? 'left-0 top-0' : 'top-16'
+        }`}
         style={{ 
           background: "var(--dark-panel)", 
           borderColor: "rgba(255,255,255,0.1)",
-          marginTop: "64px"
+          marginTop: isMobile ? 0 : "64px"
         }}
       >
-        <div className="p-4 flex items-center justify-between">
-          {sidebarOpen && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              <h2 className="text-white font-bold text-lg">GlacierIce Cream Admin</h2>
-            </motion.div>
-          )}
-          <button 
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="text-white/50 hover:text-white p-2"
-          >
-            {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
-        </div>
+        {/* Mobile Header */}
+        {isMobile && (
+          <div className="p-4 border-b flex items-center justify-between" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
+            <h2 className="text-white font-bold text-lg">Glacier Admin</h2>
+            <button onClick={closeSidebar} className="text-white/50 hover:text-white p-2">
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+        )}
 
-        <nav className="flex-1 px-3 py-4 space-y-1">
+        {/* Desktop Header */}
+        {!isMobile && (
+          <div className="p-4 flex items-center justify-between border-b" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
+            {sidebarOpen && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                <h2 className="text-white font-bold text-lg">Glacier Admin</h2>
+              </motion.div>
+            )}
+            <button 
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="text-white/50 hover:text-white p-2"
+            >
+              {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
+        )}
+
+        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
           {menuItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
+              onClick={closeSidebar}
               className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors"
             >
               <item.icon className="h-5 w-5 shrink-0" />
@@ -122,7 +162,7 @@ export default function AdminDashboard() {
             onClick={handleLogout}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-500/10 w-full transition-colors"
           >
-            <LogOut className="h-5 w-5" />
+            <LogOut className="h-5 w-5 shrink-0" />
             {sidebarOpen && <span>Logout</span>}
           </button>
         </div>
@@ -130,65 +170,76 @@ export default function AdminDashboard() {
 
       {/* Main Content */}
       <div 
-        className="flex-1 transition-all"
-        style={{ marginLeft: sidebarOpen ? "260px" : "80px", marginTop: "64px" }}
+        className="flex-1 min-h-screen"
+        style={{ marginTop: "64px" }}
       >
-        {/* Top Header */}
+        {/* Mobile Header with Menu Button */}
         <header 
-          className="sticky top-0 z-30 border-b flex items-center justify-between px-6 py-4"
+          className="sticky top-16 z-30 border-b flex items-center justify-between px-4 py-3 lg:hidden"
           style={{ 
             background: "var(--glass-bg)", 
-            borderColor: "var(--border)",
-            backdropFilter: "blur(20px)"
+            borderColor: "var(--border)"
           }}
         >
-          <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold" style={{ color: "var(--foreground)" }}>
-              Dashboard
-            </h1>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full flex items-center justify-center"
-                style={{ background: "var(--accent)" }}>
-                <span className="text-white font-semibold">A</span>
-              </div>
-              <div className="hidden sm:block">
-                <p className="text-sm font-semibold" style={{ color: "var(--foreground)" }}>Admin</p>
-                <p className="text-xs" style={{ color: "var(--muted)" }}>admin@glaciericecream.com</p>
-              </div>
+          <button 
+            onClick={() => setSidebarOpen(true)}
+            className="p-2 rounded-lg hover:bg-[var(--surface-stat)]"
+          >
+            <Menu className="h-6 w-6" style={{ color: "var(--foreground)" }} />
+          </button>
+          <h1 className="text-lg font-bold" style={{ color: "var(--foreground)" }}>Dashboard</h1>
+          <div className="w-10" />
+        </header>
+
+        {/* Desktop Header */}
+        <header 
+          className="hidden lg:flex sticky top-16 z-30 border-b items-center justify-between px-6 py-4"
+          style={{ 
+            background: "var(--glass-bg)", 
+            borderColor: "var(--border)"
+          }}
+        >
+          <h1 className="text-2xl font-bold" style={{ color: "var(--foreground)" }}>Dashboard</h1>
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-full flex items-center justify-center"
+              style={{ background: "var(--accent)" }}>
+              <span className="text-white font-semibold">A</span>
+            </div>
+            <div>
+              <p className="text-sm font-semibold" style={{ color: "var(--foreground)" }}>Admin</p>
+              <p className="text-xs" style={{ color: "var(--muted)" }}>admin@glaciericecream.com</p>
             </div>
           </div>
         </header>
 
-        {/* Dashboard Content */}
-        <main className="p-6">
+        {/* Content */}
+        <main className="p-4 lg:p-6">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-6 lg:mb-8">
               {[
-                { label: "Total Products", value: stats.productCount, icon: Package },
+                { label: "Products", value: stats.productCount, icon: Package },
                 { label: "Categories", value: stats.categoryCount, icon: Tag },
-                { label: "Store Locations", value: stats.storeCount, icon: Store },
-                { label: "Featured Items", value: stats.featuredCount, icon: TrendingUp },
-              ].map((stat, index) => (
+                { label: "Stores", value: stats.storeCount, icon: Store },
+                { label: "Featured", value: stats.featuredCount, icon: TrendingUp },
+              ].map((stat) => (
                 <motion.div key={stat.label} variants={itemVariants}>
                   <Card className="hover:shadow-lg transition-shadow">
-                    <CardContent className="p-5">
+                    <CardContent className="p-4 lg:p-5">
                       <div className="flex items-start justify-between">
                         <div>
-                          <p className="text-sm" style={{ color: "var(--muted)" }}>{stat.label}</p>
-                          <p className="text-2xl font-bold mt-1" style={{ color: "var(--foreground)" }}>
+                          <p className="text-xs lg:text-sm" style={{ color: "var(--muted)" }}>{stat.label}</p>
+                          <p className="text-xl lg:text-2xl font-bold mt-1" style={{ color: "var(--foreground)" }}>
                             {loading ? "..." : stat.value}
                           </p>
                         </div>
-                        <div className="flex h-10 w-10 items-center justify-center rounded-lg"
+                        <div className="flex h-8 w-8 lg:h-10 lg:w-10 items-center justify-center rounded-lg"
                           style={{ background: "var(--accent-soft)" }}>
-                          <stat.icon className="h-5 w-5" style={{ color: "var(--accent)" }} />
+                          <stat.icon className="h-4 w-4 lg:h-5 lg:w-5" style={{ color: "var(--accent)" }} />
                         </div>
                       </div>
                     </CardContent>
@@ -198,29 +249,35 @@ export default function AdminDashboard() {
             </div>
 
             {/* Quick Actions */}
-            <motion.div variants={itemVariants} className="mb-8">
+            <motion.div variants={itemVariants} className="mb-6 lg:mb-8">
               <Card>
                 <CardHeader>
                   <CardTitle style={{ color: "var(--foreground)" }}>Quick Actions</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex flex-wrap gap-3">
-                    <Button asChild>
+                  <div className="flex flex-wrap gap-2 lg:gap-3">
+                    <Button asChild size="sm">
                       <Link href="/admin/products">
-                        <Plus className="h-4 w-4" />
+                        <Package className="h-4 w-4" />
                         Add Product
                       </Link>
                     </Button>
-                    <Button variant="outline" asChild>
+                    <Button variant="outline" size="sm" asChild>
                       <Link href="/admin/categories">
                         <Tag className="h-4 w-4" />
                         Categories
                       </Link>
                     </Button>
-                    <Button variant="outline" asChild>
+                    <Button variant="outline" size="sm" asChild>
                       <Link href="/admin/stores">
                         <Store className="h-4 w-4" />
                         Add Store
+                      </Link>
+                    </Button>
+                    <Button variant="outline" size="sm" asChild>
+                      <Link href="/admin/settings">
+                        <Settings className="h-4 w-4" />
+                        Settings
                       </Link>
                     </Button>
                   </div>
@@ -231,16 +288,11 @@ export default function AdminDashboard() {
             {/* Categories Overview */}
             <motion.div variants={itemVariants}>
               <Card>
-                <CardHeader className="flex flex-row items-center justify-between">
+                <CardHeader>
                   <CardTitle style={{ color: "var(--foreground)" }}>Categories</CardTitle>
-                  <Button variant="ghost" size="sm" asChild>
-                    <Link href="/admin/categories">
-                      View All <ChevronRight className="h-4 w-4 ml-1" />
-                    </Link>
-                  </Button>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 lg:gap-3">
                     {[
                       { name: "Signature Tubs", color: "#FF7A59" },
                       { name: "Bars & Cones", color: "#7C3AED" },
@@ -249,10 +301,15 @@ export default function AdminDashboard() {
                       { name: "Cups & Sundaes", color: "#0EA5E9" },
                       { name: "Shakes & Specials", color: "#8B5CF6" },
                     ].map((cat) => (
-                      <div key={cat.name} className="flex items-center gap-2 p-2 rounded-lg border" style={{ borderColor: "var(--border)" }}>
-                        <div className="h-3 w-3 rounded-full" style={{ backgroundColor: cat.color }} />
-                        <span className="text-sm" style={{ color: "var(--foreground)" }}>{cat.name}</span>
-                      </div>
+                      <Link 
+                        key={cat.name} 
+                        href="/admin/categories"
+                        className="flex items-center gap-2 p-2 lg:p-3 rounded-lg border hover:bg-[var(--surface-stat)] transition-colors"
+                        style={{ borderColor: "var(--border)" }}
+                      >
+                        <div className="h-3 w-3 rounded-full shrink-0" style={{ backgroundColor: cat.color }} />
+                        <span className="text-xs lg:text-sm truncate" style={{ color: "var(--foreground)" }}>{cat.name}</span>
+                      </Link>
                     ))}
                   </div>
                 </CardContent>

@@ -26,14 +26,11 @@ interface Product {
   isFeatured?: boolean
 }
 
-const categories = [
-  { id: "cmneff9x7000121gatr8ayoj7", name: "Signature Tubs", slug: "signature-tubs" },
-  { id: "cmneff9x8000221gaip4wfp5", name: "Bars & Cones", slug: "bars-and-cones" },
-  { id: "cmneff9x9000321gaval9agbr", name: "Indian Classics", slug: "indian-classics" },
-  { id: "cmneff9xa000421ga1bhc7d6", name: "Fruit Flavours", slug: "fruit-flavours" },
-  { id: "cmneff9xb000521gac8ke8f7", name: "Cups & Sundaes", slug: "cups-and-sundaes" },
-  { id: "cmneff9xc000621ga9dlh9g8", name: "Shakes & Specials", slug: "shakes-and-specials" },
-]
+interface Category {
+  id: string
+  name: string
+  slug: string
+}
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -74,6 +71,7 @@ export default function AdminProductsPage() {
   const [showModal, setShowModal] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
   const [saving, setSaving] = useState(false)
+  const [categories, setCategories] = useState<Category[]>([])
   const [formData, setFormData] = useState({
     name: "",
     tagline: "",
@@ -87,6 +85,7 @@ export default function AdminProductsPage() {
 
   useEffect(() => {
     loadProducts()
+    loadCategories()
   }, [])
 
   const loadProducts = async () => {
@@ -98,6 +97,16 @@ export default function AdminProductsPage() {
       console.error("Failed to load products:", err)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const loadCategories = async () => {
+    try {
+      const res = await fetch("/admin/api/categories")
+      const data = await res.json()
+      setCategories(data)
+    } catch (err) {
+      console.error("Failed to load categories:", err)
     }
   }
 

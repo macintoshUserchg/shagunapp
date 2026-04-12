@@ -80,7 +80,7 @@ export default function AdminProductsPage() {
     description: "",
     price: "",
     colorHex: "#cccccc",
-    imageUrl: "/glacier/placeholder.jpg",
+    imageUrl: "/glacier/placeholder.svg",
     categoryId: "",
     isFeatured: false,
   })
@@ -127,7 +127,7 @@ export default function AdminProductsPage() {
         description: "",
         price: "",
         colorHex: "#cccccc",
-        imageUrl: "/glacier/placeholder.jpg",
+        imageUrl: "/glacier/placeholder.svg",
         categoryId: "",
         isFeatured: false,
       })

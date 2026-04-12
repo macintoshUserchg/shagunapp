@@ -80,7 +80,7 @@ export default function HomeClient({
       >
         <div className="shell flex h-16 items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3">
-            <Image src="/glacier/logo.png" alt="GlacierIce Cream" width={120} height={40} className="h-9 w-auto object-contain" />
+            <Image src="/glacier/logo.svg" alt="GlacierIce Cream" width={120} height={40} className="h-9 w-auto object-contain" />
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex">
@@ -148,9 +148,9 @@ export default function HomeClient({
       >
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-1">
           {[
-            { src: "/glacier/banner-belgian.jpg",     alt: "Belgian Dark Chocolate", label: "New Arrival" },
-            { src: "/glacier/banner-kulfi.jpg",        alt: "Kulfi Collection",       label: "Indian Classic" },
-            { src: "/glacier/banner-wild-berries.jpg", alt: "Wild Berries",           label: "Bestseller" },
+            { src: "/glacier/banner-belgian.svg",     alt: "Belgian Dark Chocolate", label: "New Arrival" },
+            { src: "/glacier/banner-kulfi.svg",        alt: "Kulfi Collection",       label: "Indian Classic" },
+            { src: "/glacier/banner-wild-berries.svg", alt: "Wild Berries",           label: "Bestseller" },
           ].map((b, i) => (
             <motion.div
               key={b.src}
@@ -348,9 +348,9 @@ export default function HomeClient({
 
           <div className="grid gap-6 sm:grid-cols-3">
             {[
-              { icon: "/glacier/icon-about.webp", title: "About Us", desc: "Established in 1995, GlacierIce Cream has grown to be loved by all — with 500+ retail outlets across multiple states.", cta: "Know More" },
-              { icon: "/glacier/icon-awards.webp", title: "Awards", desc: "Making waves in the industry — our hard work and innovation have earned us recognition at the highest levels of the food and beverage industry.", cta: "Know More" },
-              { icon: "/glacier/icon-csr.webp", title: "CSR", desc: "Giving it back to the world — we are who we are because of your support. Our CSR initiatives focus on community, environment, and education.", cta: "Know More" },
+              { icon: "/glacier/icon-about.svg", title: "About Us", desc: "Established in 1995, GlacierIce Cream has grown to be loved by all — with 500+ retail outlets across multiple states.", cta: "Know More" },
+              { icon: "/glacier/icon-awards.svg", title: "Awards", desc: "Making waves in the industry — our hard work and innovation have earned us recognition at the highest levels of the food and beverage industry.", cta: "Know More" },
+              { icon: "/glacier/icon-csr.svg", title: "CSR", desc: "Giving it back to the world — we are who we are because of your support. Our CSR initiatives focus on community, environment, and education.", cta: "Know More" },
             ].map((item, i) => (
               <motion.div
                 key={item.title}
@@ -428,7 +428,7 @@ export default function HomeClient({
                 </div>
               </div>
               <div className="hidden sm:block">
-                <Image src="/glacier/icon-party.webp" alt="Party Order" width={160} height={160}
+                <Image src="/glacier/icon-party.svg" alt="Party Order" width={160} height={160}
                   className="h-40 w-40 object-contain" />
               </div>
             </div>
@@ -507,7 +507,7 @@ export default function HomeClient({
         <div className="shell py-10">
           <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <Image src="/glacier/logo.png" alt="GlacierIce Cream" width={120} height={40} className="h-10 w-auto brightness-0 invert" />
+              <Image src="/glacier/logo.svg" alt="GlacierIce Cream" width={120} height={40} className="h-10 w-auto brightness-0 invert" />
               <p className="mt-3 max-w-xs text-sm leading-7 text-white/50">
                 Crafting smiles since 1995. Premium ice cream loved by millions.
               </p>

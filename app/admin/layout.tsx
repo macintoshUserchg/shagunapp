@@ -23,7 +23,7 @@ export default async function AdminLayout({
         <Link href="/" className="flex items-center gap-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg"
             style={{ background: "var(--accent)" }}>
-            <Image src="/glacier/logo.png" alt="GlacierIce Cream" width={60} height={24} className="h-6 w-auto object-contain brightness-0 invert" />
+            <Image src="/glacier/logo.svg" alt="GlacierIce Cream" width={60} height={24} className="h-6 w-auto object-contain brightness-0 invert" />
           </div>
           <span className="text-white font-semibold hidden sm:inline">GlacierIce Cream Admin</span>
         </Link>

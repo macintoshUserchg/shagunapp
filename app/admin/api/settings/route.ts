@@ -1,36 +1,42 @@
-import { NextRequest, NextResponse } from "next/server"
-import fs from "fs"
-import path from "path"
-
-const SETTINGS_FILE = path.join(process.cwd(), "static-data", "settings.json")
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
-    const data = fs.readFileSync(SETTINGS_FILE, "utf-8")
-    const settings = JSON.parse(data)
-    return NextResponse.json(settings)
+    const settings = await prisma.siteSettings.findFirst();
+    return NextResponse.json(settings);
   } catch (error) {
-    return NextResponse.json({ error: "Failed to load settings" }, { status: 500 })
+    console.error("Error loading settings:", error);
+    return NextResponse.json({ error: "Failed to load settings" }, { status: 500 });
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
+    const body = await request.json();
     
-    const currentData = JSON.parse(fs.readFileSync(SETTINGS_FILE, "utf-8"))
+    const existing = await prisma.siteSettings.findFirst();
     
-    const updatedSettings = {
-      ...currentData,
-      ...body,
-      updatedAt: new Date().toISOString(),
+    let settings;
+    if (existing) {
+      settings = await prisma.siteSettings.update({
+        where: { id: existing.id },
+        data: {
+          ...body,
+          updatedAt: new Date(),
+        },
+      });
+    } else {
+      settings = await prisma.siteSettings.create({
+        data: {
+          ...body,
+        },
+      });
     }
     
-    fs.writeFileSync(SETTINGS_FILE, JSON.stringify(updatedSettings, null, 2))
-    
-    return NextResponse.json({ success: true, settings: updatedSettings })
+    return NextResponse.json({ success: true, settings });
   } catch (error) {
-    console.error("Error saving settings:", error)
-    return NextResponse.json({ error: "Failed to save settings" }, { status: 500 })
+    console.error("Error saving settings:", error);
+    return NextResponse.json({ error: "Failed to save settings" }, { status: 500 });
   }
 }

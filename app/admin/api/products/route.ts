@@ -1,124 +1,104 @@
-import { NextRequest, NextResponse } from "next/server"
-import fs from "fs"
-import path from "path"
-
-const LATEST_PRODUCTS_FILE = path.join(process.cwd(), "static-data", "latestProducts.json")
-const FEATURED_PRODUCTS_FILE = path.join(process.cwd(), "static-data", "featuredProducts.json")
-
-function generateId(): string {
-  return "cmne" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-}
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
-    const latestData = JSON.parse(fs.readFileSync(LATEST_PRODUCTS_FILE, "utf-8"))
-    const featuredData = JSON.parse(fs.readFileSync(FEATURED_PRODUCTS_FILE, "utf-8"))
-    
-    const allProducts = latestData.map((p: any) => ({
+    const products = await prisma.product.findMany({
+      include: { category: true },
+      orderBy: { createdAt: "desc" },
+    });
+
+    const productsWithFeatured = products.map(p => ({
       ...p,
-      isFeatured: featuredData.some((f: any) => f.id === p.id)
-    }))
-    
-    return NextResponse.json(allProducts)
+      isFeatured: p.featured,
+    }));
+
+    return NextResponse.json(productsWithFeatured);
   } catch (error) {
-    return NextResponse.json({ error: "Failed to load products" }, { status: 500 })
+    console.error("Error loading products:", error);
+    return NextResponse.json({ error: "Failed to load products" }, { status: 500 });
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { action, ...productData } = body
-    
-    const latestData = JSON.parse(fs.readFileSync(LATEST_PRODUCTS_FILE, "utf-8"))
-    const featuredData = JSON.parse(fs.readFileSync(FEATURED_PRODUCTS_FILE, "utf-8"))
-    
+    const body = await request.json();
+    const { action, ...productData } = body;
+
     if (action === "add") {
-      const newProduct = {
-        id: generateId(),
-        name: productData.name,
-        slug: productData.name.toLowerCase().replace(/\s+/g, "-"),
-        tagline: productData.tagline || "",
-        description: productData.description || "",
-        price: Number(productData.price) || 0,
-        colorHex: productData.colorHex || "#cccccc",
-        imageUrl: productData.imageUrl || "/glacier/placeholder.svg",
-        featured: productData.isFeatured || false,
-        categoryId: productData.categoryId,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        category: productData.category
-      }
-      
-      latestData.unshift(newProduct)
-      
-      if (productData.isFeatured) {
-        featuredData.unshift(newProduct)
-      }
-      
-      fs.writeFileSync(LATEST_PRODUCTS_FILE, JSON.stringify(latestData, null, 2))
-      fs.writeFileSync(FEATURED_PRODUCTS_FILE, JSON.stringify(featuredData, null, 2))
-      
-      return NextResponse.json({ success: true, product: newProduct })
+      const category = await prisma.category.findUnique({
+        where: { id: productData.categoryId },
+      });
+
+      const newProduct = await prisma.product.create({
+        data: {
+          name: productData.name,
+          slug: productData.name.toLowerCase().replace(/\s+/g, "-"),
+          tagline: productData.tagline || "",
+          description: productData.description || "",
+          price: Number(productData.price) || 0,
+          colorHex: productData.colorHex || "#F59E0B",
+          imageUrl: productData.imageUrl || "/glacier/placeholder.svg",
+          featured: productData.isFeatured || false,
+          categoryId: productData.categoryId,
+        },
+        include: { category: true },
+      });
+
+      return NextResponse.json({ success: true, product: newProduct });
     }
-    
+
     if (action === "update") {
-      const index = latestData.findIndex((p: any) => p.id === productData.id)
-      if (index === -1) {
-        return NextResponse.json({ error: "Product not found" }, { status: 404 })
+      const existing = await prisma.product.findUnique({
+        where: { id: productData.id },
+      });
+
+      if (!existing) {
+        return NextResponse.json({ error: "Product not found" }, { status: 404 });
       }
-      
-      const updatedProduct = {
-        ...latestData[index],
-        ...productData,
-        slug: productData.name.toLowerCase().replace(/\s+/g, "-"),
-        updatedAt: new Date().toISOString()
-      }
-      
-      latestData[index] = updatedProduct
-      
-      const featIndex = featuredData.findIndex((f: any) => f.id === productData.id)
-      if (productData.isFeatured && featIndex === -1) {
-        featuredData.push(updatedProduct)
-      } else if (!productData.isFeatured && featIndex !== -1) {
-        featuredData.splice(featIndex, 1)
-      } else if (productData.isFeatured && featIndex !== -1) {
-        featuredData[featIndex] = updatedProduct
-      }
-      
-      fs.writeFileSync(LATEST_PRODUCTS_FILE, JSON.stringify(latestData, null, 2))
-      fs.writeFileSync(FEATURED_PRODUCTS_FILE, JSON.stringify(featuredData, null, 2))
-      
-      return NextResponse.json({ success: true, product: updatedProduct })
+
+      const updatedProduct = await prisma.product.update({
+        where: { id: productData.id },
+        data: {
+          name: productData.name,
+          slug: productData.name.toLowerCase().replace(/\s+/g, "-"),
+          tagline: productData.tagline || "",
+          description: productData.description || "",
+          price: Number(productData.price) || 0,
+          colorHex: productData.colorHex || "#F59E0B",
+          imageUrl: productData.imageUrl,
+          featured: productData.isFeatured || false,
+          categoryId: productData.categoryId,
+        },
+        include: { category: true },
+      });
+
+      return NextResponse.json({ success: true, product: updatedProduct });
     }
-    
-    return NextResponse.json({ error: "Invalid action" }, { status: 400 })
+
+    return NextResponse.json({ error: "Invalid action" }, { status: 400 });
   } catch (error) {
-    console.error("Error saving product:", error)
-    return NextResponse.json({ error: "Failed to save product" }, { status: 500 })
+    console.error("Error saving product:", error);
+    return NextResponse.json({ error: "Failed to save product" }, { status: 500 });
   }
 }
 
 export async function DELETE(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url)
-    const id = searchParams.get("id")
-    
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+
     if (!id) {
-      return NextResponse.json({ error: "Product ID required" }, { status: 400 })
+      return NextResponse.json({ error: "Product ID required" }, { status: 400 });
     }
-    
-    let latestData = JSON.parse(fs.readFileSync(LATEST_PRODUCTS_FILE, "utf-8"))
-    let featuredData = JSON.parse(fs.readFileSync(FEATURED_PRODUCTS_FILE, "utf-8"))
-    
-    latestData = latestData.filter((p: any) => p.id !== id)
-    featuredData = featuredData.filter((f: any) => f.id !== id)
-    
-    fs.writeFileSync(LATEST_PRODUCTS_FILE, JSON.stringify(latestData, null, 2))
-    fs.writeFileSync(FEATURED_PRODUCTS_FILE, JSON.stringify(featuredData, null, 2))
-    
-    return NextResponse.json({ success: true })
+
+    await prisma.product.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ error: "Failed to delete product" }, { status: 500 })
+    console.error("Error deleting product:", error);
+    return NextResponse.json({ error: "Failed to delete product" }, { status: 500 });
   }
 }

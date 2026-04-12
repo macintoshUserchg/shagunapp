@@ -80,8 +80,8 @@ export default function HomeClient({
       >
         <div className="shell flex h-16 items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3">
-            <div className="h-11 w-20 rounded-lg flex items-center justify-center bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg">
-              <Image src="/glacier/logo.svg" alt="GlacierIce Cream" width={60} height={35} className="h-8 w-auto object-contain" />
+            <div className="h-14 w-28 rounded-xl flex items-center justify-center bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg">
+              <Image src="/glacier/logo.svg" alt="GlacierIce Cream" width={90} height={50} className="h-12 w-auto object-contain" />
             </div>
           </Link>
 

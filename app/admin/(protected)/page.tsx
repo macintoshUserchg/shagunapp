@@ -171,7 +171,7 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <div 
         className="flex-1 min-h-screen"
-        style={{ marginTop: "64px" }}
+        style={{ marginTop: "64px", paddingBottom: "2rem" }}
       >
         {/* Mobile Header with Menu Button */}
         <header 
@@ -189,27 +189,6 @@ export default function AdminDashboard() {
           </button>
           <h1 className="text-lg font-bold" style={{ color: "var(--foreground)" }}>Dashboard</h1>
           <div className="w-10" />
-        </header>
-
-        {/* Desktop Header */}
-        <header 
-          className="hidden lg:flex sticky top-16 z-30 border-b items-center justify-between px-6 py-4"
-          style={{ 
-            background: "var(--glass-bg)", 
-            borderColor: "var(--border)"
-          }}
-        >
-          <h1 className="text-2xl font-bold" style={{ color: "var(--foreground)" }}>Dashboard</h1>
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full flex items-center justify-center"
-              style={{ background: "var(--accent)" }}>
-              <span className="text-white font-semibold">A</span>
-            </div>
-            <div>
-              <p className="text-sm font-semibold" style={{ color: "var(--foreground)" }}>Admin</p>
-              <p className="text-xs" style={{ color: "var(--muted)" }}>admin@glaciericecream.com</p>
-            </div>
-          </div>
         </header>
 
         {/* Content */}

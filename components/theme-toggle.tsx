@@ -1,38 +1,48 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Moon, Sun } from "lucide-react";
-import { useCallback, useSyncExternalStore } from "react";
-
-function subscribe(cb: () => void) {
-  window.addEventListener("storage", cb);
-  return () => window.removeEventListener("storage", cb);
-}
-
-function getSnapshot() {
-  return document.documentElement.classList.contains("dark");
-}
-
-function getServerSnapshot() {
-  return false;
-}
 
 export function ThemeToggle() {
-  const dark = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const [isDark, setIsDark] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  const toggle = useCallback(() => {
-    const next = !document.documentElement.classList.contains("dark");
-    document.documentElement.classList.toggle("dark", next);
-    localStorage.setItem("theme", next ? "dark" : "light");
-    window.dispatchEvent(new Event("storage"));
+  useEffect(() => {
+    setMounted(true);
+    const isDarkMode = document.documentElement.classList.contains("dark");
+    setIsDark(isDarkMode);
   }, []);
+
+  const toggleTheme = () => {
+    const newTheme = !isDark;
+    setIsDark(newTheme);
+    
+    if (newTheme) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
+
+  if (!mounted) {
+    return (
+      <button 
+        className="p-2 rounded-lg"
+      >
+        <Moon className="h-5 w-5" />
+      </button>
+    );
+  }
 
   return (
     <button 
-      onClick={toggle} 
-      aria-label="Toggle theme" 
+      onClick={toggleTheme}
+      aria-label="Toggle theme"
       className="p-2 rounded-lg hover:bg-[var(--surface-stat)] transition-colors"
     >
-      {dark ? (
+      {isDark ? (
         <Sun className="h-5 w-5" style={{ color: "var(--foreground)" }} />
       ) : (
         <Moon className="h-5 w-5" style={{ color: "var(--foreground)" }} />

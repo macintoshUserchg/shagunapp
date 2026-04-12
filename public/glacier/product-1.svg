@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" fill="none">
+  <defs>
+    <linearGradient id="p1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5C2D0A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3B1F0A;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="300" height="300" fill="url(#p1)" rx="20"/>
+  <ellipse cx="150" cy="220" rx="100" ry="40" fill="white" opacity="0.15"/>
+  <path d="M90 180 Q90 100 150 80 Q210 100 210 180" fill="white" opacity="0.3"/>
+  <path d="M100 170 Q100 110 150 90 Q200 110 200 170" fill="white" opacity="0.5"/>
+  <ellipse cx="150" cy="175" rx="60" ry="25" fill="white" opacity="0.7"/>
+  <rect x="135" y="70" width="30" height="40" fill="white" opacity="0.4" rx="3"/>
+  <text x="150" y="280" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" opacity="0.8">Chocolate</text>
+</svg>

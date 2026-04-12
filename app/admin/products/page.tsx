@@ -5,8 +5,9 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Package, Plus, Search, Edit, Trash2, X, Loader2, Check, ImageIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
+import { useToast } from "@/components/toast"
 
 interface Product {
   id: string
@@ -68,6 +69,9 @@ export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 8
+  const { addToast } = useToast()
   const [showModal, setShowModal] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
   const [saving, setSaving] = useState(false)
@@ -112,8 +116,19 @@ export default function AdminProductsPage() {
 
   const filteredProducts = products.filter(p => 
     p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    p.category.name.toLowerCase().includes(searchQuery.toLowerCase())
+    (p.category?.name || "").toLowerCase().includes(searchQuery.toLowerCase())
   )
+
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage)
+  const paginatedProducts = filteredProducts.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  )
+
+  // Reset page when search changes
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchQuery])
 
   const handleOpenModal = (product?: Product) => {
     if (product) {
@@ -145,6 +160,12 @@ export default function AdminProductsPage() {
   }
 
   const handleSave = async () => {
+    // Validation
+    if (!formData.name || !formData.categoryId || !formData.price) {
+      addToast("Please fill in all required fields", "error")
+      return
+    }
+    
     setSaving(true)
     try {
       const category = categories.find(c => c.id === formData.categoryId)
@@ -168,9 +189,14 @@ export default function AdminProductsPage() {
       if (res.ok) {
         setShowModal(false)
         loadProducts()
+        addToast(editingProduct ? "Product updated!" : "Product created!", "success")
+      } else {
+        const data = await res.json()
+        addToast(data.error || "Failed to save product", "error")
       }
     } catch (err) {
       console.error("Failed to save product:", err)
+      addToast("An unexpected error occurred", "error")
     } finally {
       setSaving(false)
     }
@@ -180,10 +206,16 @@ export default function AdminProductsPage() {
     if (!confirm("Are you sure you want to delete this product?")) return
     
     try {
-      await fetch(`/admin/api/products?id=${id}`, { method: "DELETE" })
-      loadProducts()
+      const res = await fetch(`/admin/api/products?id=${id}`, { method: "DELETE" })
+      if (res.ok) {
+        loadProducts()
+        addToast("Product deleted!", "success")
+      } else {
+        addToast("Failed to delete product", "error")
+      }
     } catch (err) {
       console.error("Failed to delete product:", err)
+      addToast("An unexpected error occurred", "error")
     }
   }
 
@@ -226,7 +258,7 @@ export default function AdminProductsPage() {
       </motion.div>
 
       <motion.div variants={itemVariants} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {filteredProducts.map((product) => (
+        {paginatedProducts.map((product) => (
           <Card key={product.id} className="overflow-hidden group hover:shadow-lg transition-all">
             <div className="relative h-40 bg-[var(--surface-stat)]">
               <div 
@@ -250,7 +282,7 @@ export default function AdminProductsPage() {
             </div>
             <CardContent className="p-4">
               <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: "var(--accent)" }}>
-                {product.category.name}
+                {product.category?.name || "Uncategorized"}
               </p>
               <h3 className="font-semibold mt-1" style={{ color: "var(--foreground)" }}>{product.name}</h3>
               <p className="text-sm mt-1" style={{ color: "var(--muted)" }}>₹{product.price}</p>
@@ -258,6 +290,31 @@ export default function AdminProductsPage() {
           </Card>
         ))}
       </motion.div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <motion.div variants={itemVariants} className="flex items-center justify-center gap-2 mt-6">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </Button>
+          <span className="text-sm" style={{ color: "var(--muted)" }}>
+            Page {currentPage} of {totalPages}
+          </span>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </Button>
+        </motion.div>
+      )}
 
       {/* Add/Edit Modal */}
       <AnimatePresence>

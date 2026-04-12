@@ -21,15 +21,6 @@ const menuItems = [
   { icon: Settings, label: "Settings", href: "/admin/settings" },
 ]
 
-const stats = [
-  { label: "Total Products", value: "5", change: "+2", icon: Package },
-  { label: "Categories", value: "6", change: "+1", icon: Tag },
-  { label: "Store Locations", value: "3", change: "+0", icon: Store },
-  { label: "Featured Items", value: "3", change: "Top", icon: TrendingUp },
-]
-
-const recentProducts = []
-
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -50,13 +41,34 @@ const itemVariants = {
 export default function AdminDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
+  const [stats, setStats] = useState({
+    categoryCount: 0,
+    productCount: 0,
+    featuredCount: 0,
+    storeCount: 0,
+    totalInventoryValue: 0
+  })
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768)
     checkMobile()
     window.addEventListener("resize", checkMobile)
+    loadStats()
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
+
+  const loadStats = async () => {
+    try {
+      const res = await fetch("/admin/api/stats")
+      const data = await res.json()
+      setStats(data)
+    } catch (err) {
+      console.error("Failed to load stats:", err)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleLogout = async () => {
     const formData = new FormData()
@@ -158,7 +170,12 @@ export default function AdminDashboard() {
           >
             {/* Stats Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              {stats.map((stat, index) => (
+              {[
+                { label: "Total Products", value: stats.productCount, icon: Package },
+                { label: "Categories", value: stats.categoryCount, icon: Tag },
+                { label: "Store Locations", value: stats.storeCount, icon: Store },
+                { label: "Featured Items", value: stats.featuredCount, icon: TrendingUp },
+              ].map((stat, index) => (
                 <motion.div key={stat.label} variants={itemVariants}>
                   <Card className="hover:shadow-lg transition-shadow">
                     <CardContent className="p-5">
@@ -166,10 +183,7 @@ export default function AdminDashboard() {
                         <div>
                           <p className="text-sm" style={{ color: "var(--muted)" }}>{stat.label}</p>
                           <p className="text-2xl font-bold mt-1" style={{ color: "var(--foreground)" }}>
-                            {stat.value}
-                          </p>
-                          <p className="text-xs mt-2" style={{ color: "var(--accent)" }}>
-                            {stat.change}
+                            {loading ? "..." : stat.value}
                           </p>
                         </div>
                         <div className="flex h-10 w-10 items-center justify-center rounded-lg"

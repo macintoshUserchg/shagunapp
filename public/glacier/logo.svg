@@ -1,4 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" fill="none">
-  <rect width="200" height="80" fill="#0EA5E9"/>
-  <text x="100" y="50" font-family="Arial" font-size="28" font-weight="bold" fill="white" text-anchor="middle">GlacierIce Cream</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" fill="none">
+  <defs>
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0EA5E9"/>
+      <stop offset="100%" style="stop-color:#0284C7"/>
+    </linearGradient>
+  </defs>
+  <!-- Ice cream cone icon -->
+  <g transform="translate(10, 10)">
+    <path d="M30 5 C30 5 15 35 5 55 L25 55 C25 55 30 35 30 35 C30 35 35 55 55 55 L35 55 C25 35 30 5 30 5Z" fill="url(#logoGrad)"/>
+    <ellipse cx="30" cy="5" rx="15" ry="8" fill="#F472B6"/>
+    <ellipse cx="30" cy="3" rx="12" ry="6" fill="#FBCFE8"/>
+    <circle cx="25" cy="2" r="2" fill="white" opacity="0.8"/>
+    <circle cx="35" cy="4" r="1.5" fill="white" opacity="0.6"/>
+  </g>
+  <!-- Text -->
+  <text x="80" y="48" font-family="Arial, sans-serif" font-size="26" font-weight="bold" fill="white">Glacier</text>
+  <text x="175" y="48" font-family="Arial, sans-serif" font-size="14" font-weight="300" fill="white" opacity="0.9">Ice Cream</text>
 </svg>

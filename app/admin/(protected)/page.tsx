@@ -107,7 +107,7 @@ export default function AdminDashboard() {
           width: isMobile ? 280 : (sidebarOpen ? 260 : 80)
         }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className={`fixed lg:relative z-50 h-screen border-r flex flex-col ${
+        className={`${isMobile ? 'fixed' : 'sticky'} z-50 h-screen border-r flex flex-col ${
           isMobile ? 'left-0 top-0' : 'top-16'
         }`}
         style={{ 

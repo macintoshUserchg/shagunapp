@@ -148,9 +148,9 @@ export default function HomeClient({
       >
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-1">
           {[
-            { src: "/glacier/banner-1.svg",     alt: "Premium Ice Cream", label: "New Arrival" },
-            { src: "/glacier/banner-2.svg",     alt: "Variety of Flavors", label: "Popular" },
-            { src: "/glacier/banner-3.svg",     alt: "Party Orders",       label: "Best Seller" },
+            { src: "/glacier/banner-1.jpg",     alt: "Premium Ice Cream", label: "New Arrival" },
+            { src: "/glacier/banner-2.jpg",     alt: "Variety of Flavors", label: "Popular" },
+            { src: "/glacier/banner-3.jpg",     alt: "Party Orders",       label: "Best Seller" },
           ].map((b, i) => (
             <motion.div
               key={b.src}
@@ -348,9 +348,9 @@ export default function HomeClient({
 
           <div className="grid gap-6 sm:grid-cols-3">
             {[
-              { icon: "/glacier/icon-about.svg", title: "About Us", desc: "Established in 1995, GlacierIce Cream has grown to be loved by all — with 500+ retail outlets across multiple states.", cta: "Know More" },
-              { icon: "/glacier/icon-awards.svg", title: "Awards", desc: "Making waves in the industry — our hard work and innovation have earned us recognition at the highest levels of the food and beverage industry.", cta: "Know More" },
-              { icon: "/glacier/icon-csr.svg", title: "CSR", desc: "Giving it back to the world — we are who we are because of your support. Our CSR initiatives focus on community, environment, and education.", cta: "Know More" },
+              { icon: "/glacier/icon-about.jpg", title: "About Us", desc: "Established in 1995, GlacierIce Cream has grown to be loved by all — with 500+ retail outlets across multiple states.", cta: "Know More" },
+              { icon: "/glacier/icon-awards.jpg", title: "Awards", desc: "Making waves in the industry — our hard work and innovation have earned us recognition at the highest levels of the food and beverage industry.", cta: "Know More" },
+              { icon: "/glacier/icon-csr.jpg", title: "CSR", desc: "Giving it back to the world — we are who we are because of your support. Our CSR initiatives focus on community, environment, and education.", cta: "Know More" },
             ].map((item, i) => (
               <motion.div
                 key={item.title}
@@ -428,8 +428,8 @@ export default function HomeClient({
                 </div>
               </div>
               <div className="hidden sm:block">
-                <Image src="/glacier/icon-party.svg" alt="Party Order" width={160} height={160}
-                  className="h-40 w-40 object-contain" />
+                <Image src="/glacier/product-1.jpg" alt="Party Order" width={160} height={160}
+                  className="h-40 w-40 object-contain rounded-lg" />
               </div>
             </div>
           </motion.div>

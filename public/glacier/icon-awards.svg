@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
-  <rect width="200" height="200" fill="#D97706" rx="20"/>
-  <polygon points="100,40 120,80 160,80 130,110 140,150 100,125 60,150 70,110 40,80 80,80" fill="white" opacity="0.3"/>
-  <polygon points="100,55 115,85 145,85 122,105 130,135 100,115 70,135 78,105 55,85 85,85" fill="white" opacity="0.6"/>
-  <text x="100" y="45" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">Awards</text>
-</svg>

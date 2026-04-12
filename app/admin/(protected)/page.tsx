@@ -5,9 +5,9 @@ import { motion } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
 import { 
-  LayoutDashboard, Package, ShoppingCart, Store, Settings, 
-  Users, TrendingUp, DollarSign, LogOut, Menu, X,
-  IceCream, Plus, Edit, Trash2, ChevronRight
+  LayoutDashboard, Package, Tag, Store, Settings, 
+  TrendingUp, DollarSign, LogOut, Menu, X,
+  Plus, ChevronRight
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -16,25 +16,19 @@ import { Input } from "@/components/ui/input"
 const menuItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/admin" },
   { icon: Package, label: "Products", href: "/admin/products" },
-  { icon: ShoppingCart, label: "Orders", href: "/admin/orders" },
+  { icon: Tag, label: "Categories", href: "/admin/categories" },
   { icon: Store, label: "Stores", href: "/admin/stores" },
-  { icon: Users, label: "Customers", href: "/admin/customers" },
   { icon: Settings, label: "Settings", href: "/admin/settings" },
 ]
 
 const stats = [
-  { label: "Total Revenue", value: "₹2.4L", change: "+12.5%", icon: DollarSign },
-  { label: "Orders Today", value: "48", change: "+8.2%", icon: ShoppingCart },
-  { label: "New Customers", value: "124", change: "+23.1%", icon: Users },
-  { label: "Popular Item", value: "Kulfi", change: "Top", icon: TrendingUp },
+  { label: "Total Products", value: "5", change: "+2", icon: Package },
+  { label: "Categories", value: "6", change: "+1", icon: Tag },
+  { label: "Store Locations", value: "3", change: "+0", icon: Store },
+  { label: "Featured Items", value: "3", change: "Top", icon: TrendingUp },
 ]
 
-const recentOrders = [
-  { id: "ORD-001", customer: "Rahul Sharma", items: 3, total: 450, status: "Pending" },
-  { id: "ORD-002", customer: "Priya Patel", items: 5, total: 780, status: "Completed" },
-  { id: "ORD-003", customer: "Amit Kumar", items: 2, total: 320, status: "Processing" },
-  { id: "ORD-004", customer: "Sneha Gupta", items: 4, total: 560, status: "Completed" },
-]
+const recentProducts = []
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -197,66 +191,55 @@ export default function AdminDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-wrap gap-3">
-                    <Button>
-                      <Plus className="h-4 w-4" />
-                      Add Product
+                    <Button asChild>
+                      <Link href="/admin/products">
+                        <Plus className="h-4 w-4" />
+                        Add Product
+                      </Link>
                     </Button>
-                    <Button variant="outline">
-                      <ShoppingCart className="h-4 w-4" />
-                      View Orders
+                    <Button variant="outline" asChild>
+                      <Link href="/admin/categories">
+                        <Tag className="h-4 w-4" />
+                        Categories
+                      </Link>
                     </Button>
-                    <Button variant="outline">
-                      <Store className="h-4 w-4" />
-                      Add Store
+                    <Button variant="outline" asChild>
+                      <Link href="/admin/stores">
+                        <Store className="h-4 w-4" />
+                        Add Store
+                      </Link>
                     </Button>
                   </div>
                 </CardContent>
               </Card>
             </motion.div>
 
-            {/* Recent Orders */}
+            {/* Categories Overview */}
             <motion.div variants={itemVariants}>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle style={{ color: "var(--foreground)" }}>Recent Orders</CardTitle>
-                  <Button variant="ghost" size="sm">
-                    View All <ChevronRight className="h-4 w-4 ml-1" />
+                  <CardTitle style={{ color: "var(--foreground)" }}>Categories</CardTitle>
+                  <Button variant="ghost" size="sm" asChild>
+                    <Link href="/admin/categories">
+                      View All <ChevronRight className="h-4 w-4 ml-1" />
+                    </Link>
                   </Button>
                 </CardHeader>
                 <CardContent>
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead>
-                        <tr className="border-b" style={{ borderColor: "var(--border)" }}>
-                          <th className="text-left py-3 text-sm font-medium" style={{ color: "var(--muted)" }}>Order ID</th>
-                          <th className="text-left py-3 text-sm font-medium" style={{ color: "var(--muted)" }}>Customer</th>
-                          <th className="text-left py-3 text-sm font-medium" style={{ color: "var(--muted)" }}>Items</th>
-                          <th className="text-left py-3 text-sm font-medium" style={{ color: "var(--muted)" }}>Total</th>
-                          <th className="text-left py-3 text-sm font-medium" style={{ color: "var(--muted)" }}>Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {recentOrders.map((order) => (
-                          <tr key={order.id} className="border-b" style={{ borderColor: "var(--border)" }}>
-                            <td className="py-3 text-sm font-medium" style={{ color: "var(--foreground)" }}>
-                              {order.id}
-                            </td>
-                            <td className="py-3 text-sm" style={{ color: "var(--muted)" }}>{order.customer}</td>
-                            <td className="py-3 text-sm" style={{ color: "var(--muted)" }}>{order.items}</td>
-                            <td className="py-3 text-sm" style={{ color: "var(--foreground)" }}>₹{order.total}</td>
-                            <td className="py-3">
-                              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                                order.status === "Completed" ? "bg-green-500/10 text-green-500" :
-                                order.status === "Pending" ? "bg-yellow-500/10 text-yellow-500" :
-                                "bg-blue-500/10 text-blue-500"
-                              }`}>
-                                {order.status}
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {[
+                      { name: "Signature Tubs", color: "#FF7A59" },
+                      { name: "Bars & Cones", color: "#7C3AED" },
+                      { name: "Indian Classics", color: "#D97706" },
+                      { name: "Fruit Flavours", color: "#E11D48" },
+                      { name: "Cups & Sundaes", color: "#0EA5E9" },
+                      { name: "Shakes & Specials", color: "#8B5CF6" },
+                    ].map((cat) => (
+                      <div key={cat.name} className="flex items-center gap-2 p-2 rounded-lg border" style={{ borderColor: "var(--border)" }}>
+                        <div className="h-3 w-3 rounded-full" style={{ backgroundColor: cat.color }} />
+                        <span className="text-sm" style={{ color: "var(--foreground)" }}>{cat.name}</span>
+                      </div>
+                    ))}
                   </div>
                 </CardContent>
               </Card>
